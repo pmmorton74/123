@@ -268,8 +268,11 @@ class LeagueData(object):
         league.num_playoff_slots = int(self.num_playoff_slots)
         league.num_regular_season_weeks = int(self.num_regular_season_weeks)
         league.faab_budget = int(self.league_settings.get("waiver_budget"))
-        if league.faab_budget > 0:
+        if league.faab_budget and league.faab_budget > 0:
             league.is_faab = True
+        league.num_divisions = int(self.league_settings.get("divisions"))
+        if league.num_divisions and league.num_divisions > 0:
+            league.has_divisions = True
         league.url = self.base_url + "league/" + str(self.league_id)
 
         # TODO: hook up to collected player stats by week
@@ -344,9 +347,8 @@ class LeagueData(object):
                     # TODO: change team_key to team_id universally
                     base_team.team_id = team.get("roster_id")
                     base_team.team_key = team.get("roster_id")
-                    # base_team.points = round(float(team.get("points")), 2)
+                    base_team.division = team_info.get("settings").get("division")
                     base_team.points = round(float(team.get("points")), 2) if team.get("points") else 0
-                    # TODO: sum projected points from players
 
                     base_team.num_moves = sum(len(self.league_transactions_by_week.get(str(week), {}).get(
                         str(base_team.team_id), {}).get("moves", [])) for week in range(1, int(week) + 1))
@@ -367,6 +369,7 @@ class LeagueData(object):
 
                     # TODO: must build streaks from custom standings week by week
                     base_team.streak_str = "N/A"
+                    base_team.division_streak_str = "N/A"
                     # if team > 0:
                     #     base_team.streak_type = "W"
                     # elif team < 0:

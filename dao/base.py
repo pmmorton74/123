@@ -99,6 +99,8 @@ class BaseLeague(FantasyFootballReportObject):
         self.num_regular_season_weeks = 0
         self.is_faab = False
         self.faab_budget = 0
+        self.has_divisions = False
+        self.num_divisions = 0
         self.url = None
 
         # attributes calculated externally from platform API data
@@ -234,6 +236,7 @@ class BaseTeam(FantasyFootballReportObject):
         self.managers = []
         self.team_id = None
         self.team_key = None
+        self.division = None
         self.points = 0
         self.projected_points = 0
         self.waiver_priority = 0
@@ -243,8 +246,14 @@ class BaseTeam(FantasyFootballReportObject):
         self.losses = 0
         self.ties = 0
         self.percentage = 0
+        self.division_wins = 0
+        self.division_losses = 0
+        self.division_ties = 0
+        self.division_percentage = 0
         self.streak_type = None
         self.streak_len = 0
+        self.division_streak_type = None
+        self.division_streak_len = 0
         self.points_against = 0
         self.points_for = 0
         self.rank = 0
@@ -254,6 +263,7 @@ class BaseTeam(FantasyFootballReportObject):
         self.manager_str = None
         self.bench_points = 0
         self.streak_str = None
+        self.division_streak_str = None
         self.bad_boy_points = 0
         self.worst_offense = None
         self.num_offenders = 0

@@ -144,15 +144,19 @@ class PlayoffProbabilities(object):
 
 class TeamWithPlayoffProbs(object):
 
-    def __init__(self, team_id, name, manager, wins, losses, ties, points_for, playoff_slots, simulations):
+    def __init__(self, team_id, name, manager, wins, losses, ties, points_for, playoff_slots, simulations,
+                 division_wins=0, division_losses=0, division_ties=0):
         self.team_id = team_id
         self.name = name
         self.manager = manager
-        self.base_wins = wins
-        self.wins = wins
+        self.base_wins = wins + ties
+        self.wins = wins + ties
+        self.base_division_wins = division_wins + division_ties
+        self.division_wins = division_wins + division_ties
         self.base_losses = losses
         self.losses = losses
-        self.ties = ties
+        self.base_division_losses = division_losses
+        self.division_losses = division_losses
         self.points_for = float(points_for)
         self.playoff_tally = 0
         self.playoff_stats = [0] * int(playoff_slots)
@@ -164,11 +168,15 @@ class TeamWithPlayoffProbs(object):
     def __repr__(self):
         return str(self.__dict__)
 
-    def add_win(self):
+    def add_win(self, division=False):
         self.wins += 1
+        if division:
+            self.division_wins += 1
 
-    def add_loss(self):
+    def add_loss(self, division=False):
         self.losses += 1
+        if division:
+            self.division_losses += 1
 
     def add_playoff_tally(self):
         self.playoff_tally += 1
@@ -179,6 +187,9 @@ class TeamWithPlayoffProbs(object):
     def get_wins_with_points(self):
         return self.wins + (self.points_for / 1000000)
 
+    def get_division_wins_with_points(self):
+        return self.division_wins + (self.points_for / 1000000)
+
     def get_playoff_tally(self):
         return round((self.playoff_tally / self.simulations) * 100.0, 2)
 
@@ -188,3 +199,5 @@ class TeamWithPlayoffProbs(object):
     def reset_to_base_record(self):
         self.wins = self.base_wins
         self.losses = self.base_losses
+        self.division_wins = self.base_division_wins
+        self.division_losses = self.base_division_losses
