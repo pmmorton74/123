@@ -22,7 +22,7 @@ def complex_json_handler(obj):
         try:
             return str(obj, "utf-8")
         except TypeError:
-            raise TypeError('Object of type %s with value of %s is not JSON serializable' % (type(obj), repr(obj)))
+            raise TypeError("Object of type %s with value of %s is not JSON serializable" % (type(obj), repr(obj)))
 
 
 class FantasyFootballReportObject(object):
@@ -235,7 +235,6 @@ class BaseTeam(FantasyFootballReportObject):
         self.num_trades = 0
         self.managers = []
         self.team_id = None
-        self.team_key = None
         self.division = None
         self.points = 0
         self.projected_points = 0

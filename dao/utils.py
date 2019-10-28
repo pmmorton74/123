@@ -12,6 +12,7 @@ from dao.base import BaseLeague, BaseTeam, BasePlayer
 from dao.fleaflicker import LeagueData as FleaflickerLeagueData
 from dao.sleeper import LeagueData as SleeperLeagueData
 from dao.yahoo import LeagueData as YahooLeagueData
+from dao.espn import LeagueData as EspnLeagueData
 
 logger = logging.getLogger(__name__)
 logger.propagate = False
@@ -104,6 +105,20 @@ def league_data_factory(week_for_report, platform, league_id, game_id, season, c
             )
             return fleaflicker_league.map_data_to_base(BaseLeague)
 
+        elif platform == "espn":
+            espn_league = EspnLeagueData(
+                week_for_report,
+                league_id,
+                season,
+                config,
+                base_dir,
+                data_dir,
+                user_week_input_validation,
+                save_data,
+                dev_offline
+            )
+            return espn_league.map_data_to_base(BaseLeague)
+
     else:
         logger.error(
             "Generating fantasy football reports for the \"{}\" fantasy football platform is not currently supported. "
@@ -190,8 +205,8 @@ def add_report_team_stats(team,  # type: BaseTeam
     )
 
     # # retrieve luck and record
-    team.luck = metrics.get("matchups_results").get(team.team_key).get("luck")
-    team.record = metrics.get("matchups_results").get(team.team_key).get("record")
+    team.luck = metrics.get("matchups_results").get(team.team_id).get("luck")
+    team.record = metrics.get("matchups_results").get(team.team_id).get("record")
 
     return team
 

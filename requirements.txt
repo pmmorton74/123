@@ -1,10 +1,10 @@
-yffpy>=2.0.0
+yffpy>=2.6.0
 yahoo_oauth==0.1.9
 reportlab==3.3.0
 pillow==5.4.1
 slackclient==1.3.1
 # sleeper-api-wrapper==1.0.7
-sleeper-api-wrapper
+ff_espn_api==1.1.8
 beautifulsoup4
 httplib2
 numpy
@@ -12,3 +12,4 @@ oauth2client
 PyDrive
 requests
 urllib3
+pytest

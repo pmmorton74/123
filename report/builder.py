@@ -191,10 +191,10 @@ class FantasyFootballReport(object):
                 testing=self.test
             )
 
-            for team_key, team_result in report_data.teams_results.items():
+            for team_id, team_result in report_data.teams_results.items():
                 for weekly_team_points_by_position in report_data.data_for_weekly_points_by_position:
-                    if weekly_team_points_by_position[0] == team_key:
-                        season_avg_points_by_position[team_key].append(weekly_team_points_by_position[1])
+                    if weekly_team_points_by_position[0] == team_id:
+                        season_avg_points_by_position[team_id].append(weekly_team_points_by_position[1])
 
             top_scorer = {
                 "week": week_counter,
@@ -310,7 +310,7 @@ class FantasyFootballReport(object):
             self.league.week_for_report) + "_report.pdf"
         report_save_dir = os.path.join(
             self.config.get("Configuration", "output_dir"),
-            self.league.season,
+            str(self.league.season),
             self.league.name.replace(" ", "-") + "(" + self.league_id + ")")
         report_title_text = \
             self.league.name + " (" + str(self.league_id) + ") Week " + \

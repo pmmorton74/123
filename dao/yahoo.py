@@ -65,7 +65,7 @@ class LeagueData(object):
 
         self.season = self.league_info.season
         self.current_week = self.league_info.current_week
-        self.playoff_slots = self.league_info.settings.num_playoff_teams
+        self.num_playoff_slots = self.league_info.settings.num_playoff_teams
         self.num_regular_season_weeks = int(self.league_info.settings.playoff_start_week) - 1
         self.roster_positions = self.league_info.settings.roster_positions
 
@@ -180,7 +180,7 @@ class LeagueData(object):
         league.week = int(self.current_week)
         league.season = self.season
         league.num_teams = int(self.league_info.num_teams)
-        league.num_playoff_slots = int(self.playoff_slots)
+        league.num_playoff_slots = int(self.num_playoff_slots)
         league.num_regular_season_weeks = int(self.num_regular_season_weeks)
         league.is_faab = True if int(self.league_info.settings.uses_faab) == 1 else False
         if league.is_faab:
@@ -255,9 +255,7 @@ class LeagueData(object):
 
                     base_team.manager_str = ", ".join([manager.name for manager in base_team.managers])
 
-                    # TODO: change y_team.team_id to y_team.team_key
                     base_team.team_id = str(y_team.team_id)
-                    base_team.team_key = y_team.team_key
                     base_team.points = float(y_team.points)
                     base_team.projected_points = float(y_team.projected_points)
                     base_team.waiver_priority = y_team.waiver_priority
@@ -271,7 +269,7 @@ class LeagueData(object):
                     # add team to league teams by week
                     league.teams_by_week[str(week)][str(base_team.team_id)] = base_team
 
-                    if base_team.team_key == y_matchup.winner_team_key:
+                    if y_team.team_key == y_matchup.winner_team_key:
                         base_matchup.winner = base_team
                     else:
                         base_matchup.loser = base_team
